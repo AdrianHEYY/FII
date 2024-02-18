@@ -24,7 +24,7 @@
     <ProjectGuid>{d1677068-69de-4335-a94e-1f48b3cf9b5d}</ProjectGuid>
     <RootNamespace>sfml</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>sfml-wfc</ProjectName>
+    <ProjectName>FII</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -144,7 +144,37 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="sfml-wfc.cpp" />
+    <ClCompile Include="button\button.cpp" />
+    <ClCompile Include="FII.cpp" />
+    <ClCompile Include="gamestate\gamestate.cpp" />
+    <ClCompile Include="gamestate\ingame\ingame.cpp" />
+    <ClCompile Include="gamestate\ingame\map\map.cpp" />
+    <ClCompile Include="gamestate\ingame\player\player.cpp" />
+    <ClCompile Include="gamestate\ingame\player\playerstate\furios\furios.cpp" />
+    <ClCompile Include="gamestate\ingame\player\playerstate\gras\gras.cpp" />
+    <ClCompile Include="gamestate\ingame\player\playerstate\playerstate.cpp" />
+    <ClCompile Include="gamestate\ingame\player\playerstate\simplu\simplu.cpp" />
+    <ClCompile Include="gamestate\mainmenu\mainmenu.cpp" />
+    <ClCompile Include="game\game.cpp" />
+    <ClCompile Include="util\keyboard\keyboard.cpp" />
+    <ClCompile Include="util\mouse\mouse.cpp" />
+    <ClCompile Include="util\util.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="button\button.h" />
+    <ClInclude Include="gamestate\gamestate.h" />
+    <ClInclude Include="gamestate\ingame\ingame.h" />
+    <ClInclude Include="gamestate\ingame\map\map.h" />
+    <ClInclude Include="gamestate\ingame\player\player.h" />
+    <ClInclude Include="gamestate\ingame\player\playerstate\furios\furios.h" />
+    <ClInclude Include="gamestate\ingame\player\playerstate\gras\gras.h" />
+    <ClInclude Include="gamestate\ingame\player\playerstate\playerstate.h" />
+    <ClInclude Include="gamestate\ingame\player\playerstate\simplu\simplu.h" />
+    <ClInclude Include="gamestate\mainmenu\mainmenu.h" />
+    <ClInclude Include="game\game.h" />
+    <ClInclude Include="util\keyboard\keyboard.h" />
+    <ClInclude Include="util\mouse\mouse.h" />
+    <ClInclude Include="util\util.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

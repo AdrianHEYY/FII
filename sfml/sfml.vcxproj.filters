@@ -15,8 +15,94 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="sfml-wfc.cpp">
+    <ClCompile Include="FII.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="game\game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestate\gamestate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestate\ingame\ingame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestate\mainmenu\mainmenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="util\util.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="util\keyboard\keyboard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="util\mouse\mouse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="button\button.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestate\ingame\player\player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestate\ingame\player\playerstate\playerstate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestate\ingame\player\playerstate\furios\furios.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestate\ingame\player\playerstate\gras\gras.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestate\ingame\player\playerstate\simplu\simplu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestate\ingame\map\map.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="game\game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestate\gamestate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestate\ingame\ingame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestate\mainmenu\mainmenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util\util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util\keyboard\keyboard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util\mouse\mouse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="button\button.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestate\ingame\player\player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestate\ingame\player\playerstate\playerstate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestate\ingame\player\playerstate\furios\furios.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestate\ingame\player\playerstate\gras\gras.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestate\ingame\player\playerstate\simplu\simplu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestate\ingame\map\map.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
