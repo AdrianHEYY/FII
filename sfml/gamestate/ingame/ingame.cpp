@@ -15,4 +15,14 @@ void in_game::draw()
 void in_game::update() 
 {
 	sprite.update();
+	map.update(sprite.getOffPosition());
+}
+
+bool in_game::map_empty_rect(sf::Vector2f poz_map, sf::Vector2f size) {
+	if (!map.can_go(poz_map)) return 0;
+	if (!map.can_go(poz_map + sf::Vector2f(size.x, 0))) return 0;
+	if (!map.can_go(poz_map + sf::Vector2f(0, size.y))) return 0;
+	if (!map.can_go(poz_map + size)) return 0;
+
+	return 1;
 }

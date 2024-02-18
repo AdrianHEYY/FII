@@ -10,6 +10,8 @@ public:
     in_game(Game* game);
 	void draw() override;
 	void update() override;
+
+	bool map_empty_rect(sf::Vector2f pos, sf::Vector2f size);
 private:
 	player sprite;
 	Map map;
