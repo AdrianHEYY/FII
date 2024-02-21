@@ -24,10 +24,12 @@ void Map::setRect(int x, int y) {
 void Map::draw() {
 	util::window.draw(sprite);
 }
-bool Map::can_go(sf::Vector2f coord) {
-	sf::Vector2f local_coord = sf::Vector2f(screen_x * coord.x / 1920.0f, screen_y * coord.y / 1080.0f);
 
+bool Map::can_go(sf::Vector2f coord) {
+	//todo: in loc sa verifici asa un punct, cand creezi mapa trb un fisier cu toate dreptunghiurile(coordonatele lor) si faci AABB cu toate (mai stabil + rezolva problema cu phase-through)
+	sf::Vector2f local_coord = sf::Vector2f(screen_x * coord.x / 1920, screen_y * coord.y / 1080);
 	sf::Vector2u ucoord = sf::Vector2u(local_coord);
+	if (ucoord.x < 0 || ucoord.x >= collision_map.getSize().x || ucoord.y < 0 || ucoord.y >= collision_map.getSize().y) return 0;
 	sf::Color col = collision_map.getPixel(ucoord.x, ucoord.y);
 	if (col.r == 0 && col.g == 0 && col.b == 0) {
 		return 0;

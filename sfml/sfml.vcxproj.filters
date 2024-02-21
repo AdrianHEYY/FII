@@ -48,16 +48,19 @@
     <ClCompile Include="gamestate\ingame\player\playerstate\playerstate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gamestate\ingame\player\playerstate\furios\furios.cpp">
+    <ClCompile Include="gamestate\ingame\player\playerstate\mic\mic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gamestate\ingame\player\playerstate\gras\gras.cpp">
+    <ClCompile Include="gamestate\ingame\player\playerstate\olimpic\olimpic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="gamestate\ingame\player\playerstate\simplu\simplu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="gamestate\ingame\map\map.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestate\ingame\enemy\enemy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -92,16 +95,19 @@
     <ClInclude Include="gamestate\ingame\player\playerstate\playerstate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="gamestate\ingame\player\playerstate\furios\furios.h">
+    <ClInclude Include="gamestate\ingame\player\playerstate\mic\mic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="gamestate\ingame\player\playerstate\gras\gras.h">
+    <ClInclude Include="gamestate\ingame\player\playerstate\olimpic\olimpic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="gamestate\ingame\player\playerstate\simplu\simplu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="gamestate\ingame\map\map.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestate\ingame\enemy\enemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

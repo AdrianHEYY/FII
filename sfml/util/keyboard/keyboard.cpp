@@ -2,8 +2,6 @@
 
 #include <set>
 
-#include <iostream>
-
 namespace util
 {
 	namespace keyboard 
@@ -27,11 +25,11 @@ namespace util
 			return 1;
 		}
 		void update_key(sf::Keyboard::Key key, bool just_pressed_key) {
-			if (just_pressed_key == 1) {
+			if (just_pressed_key == 1 && !is_pressed(key)) {
 				_just_pressed.insert(key);
 				_pressed.insert(key);
 			}
-			else {
+			else if (just_pressed_key == 0) {
 				_just_released.insert(key);
 				_pressed.erase(key);
 			}

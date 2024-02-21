@@ -26,3 +26,9 @@ bool in_game::map_empty_rect(sf::Vector2f poz_map, sf::Vector2f size) {
 
 	return 1;
 }
+
+bool in_game::map_empty_rect(sf::FloatRect rect) {
+	sf::Vector2f poz_map(rect.left, rect.top);
+	sf::Vector2f size(rect.width, rect.height);
+	return map_empty_rect(poz_map, size);
+}

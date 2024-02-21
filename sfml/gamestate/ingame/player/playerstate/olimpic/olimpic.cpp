@@ -1,14 +1,14 @@
-#include "simplu.h"
+#include "olimpic.h"
 
 #include "../../../../../util/util.h"
 #include "../../../../../util/keyboard/keyboard.h"
 #include "../../player.h"
 #include "././../../../ingame.h"
 
-Player_Simplu::Player_Simplu(player * player_ptr) {
+Player_Olimpic::Player_Olimpic(player* player_ptr) {
 	this->player_ptr = player_ptr;
 
-	texture.loadFromFile("samples/player_simplu.png");
+	texture.loadFromFile("samples/1.jpg");
 	sprite.setTexture(&texture);
 
 	sprite.setSize(sf::Vector2f(48.0 * 2, 64.0 * 2));
@@ -17,10 +17,11 @@ Player_Simplu::Player_Simplu(player * player_ptr) {
 	hitbox_size = sf::Vector2f(48.0 * 2 - 12, 64.0 * 2 - 16);
 	hitbox_sprite_offset = sf::Vector2f(6, 8);
 }
-void Player_Simplu::update() {
+
+void Player_Olimpic::update() {
 	update_movement();
 }
-void Player_Simplu::update_movement() {
+void Player_Olimpic::update_movement() {
 	sf::View view = util::window.getView();
 
 	sf::Vector2f velocity = player_ptr->getVelocity();
@@ -64,7 +65,7 @@ void Player_Simplu::update_movement() {
 			current_size) == 0) {
 			velocity.y = 0; // pe pamant
 			if (util::keyboard::just_pressed(sf::Keyboard::Key::Space)) {
-				velocity.y -= 10;
+				velocity.y -= 13;
 				jumping = 1;
 			}
 		}
@@ -72,6 +73,10 @@ void Player_Simplu::update_movement() {
 	}
 	else {
 		velocity.y += 0.3;
+
+		if (velocity.x > -8 && velocity.x < 8)
+			velocity.x *= 2;
+
 		if (velocity.y > 0) velocity.y = 0, jumping = 0;
 		if (velocity.y >= 0 && ingame->map_empty_rect(current_pos + velocity, current_size) == 0) {
 			velocity.y = 0;

@@ -2,9 +2,9 @@
 
 #include "../playerstate.h"
 
-class Player_Simplu : public Player_State {
+class Player_Olimpic : public Player_State {
 public:
-	Player_Simplu(player* player_ptr);
+	Player_Olimpic(player * player_ptr);
 	void update() override;
 private:
 	void update_movement();

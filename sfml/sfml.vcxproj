@@ -147,11 +147,12 @@
     <ClCompile Include="button\button.cpp" />
     <ClCompile Include="FII.cpp" />
     <ClCompile Include="gamestate\gamestate.cpp" />
+    <ClCompile Include="gamestate\ingame\enemy\enemy.cpp" />
     <ClCompile Include="gamestate\ingame\ingame.cpp" />
     <ClCompile Include="gamestate\ingame\map\map.cpp" />
     <ClCompile Include="gamestate\ingame\player\player.cpp" />
-    <ClCompile Include="gamestate\ingame\player\playerstate\furios\furios.cpp" />
-    <ClCompile Include="gamestate\ingame\player\playerstate\gras\gras.cpp" />
+    <ClCompile Include="gamestate\ingame\player\playerstate\mic\mic.cpp" />
+    <ClCompile Include="gamestate\ingame\player\playerstate\olimpic\olimpic.cpp" />
     <ClCompile Include="gamestate\ingame\player\playerstate\playerstate.cpp" />
     <ClCompile Include="gamestate\ingame\player\playerstate\simplu\simplu.cpp" />
     <ClCompile Include="gamestate\mainmenu\mainmenu.cpp" />
@@ -163,11 +164,12 @@
   <ItemGroup>
     <ClInclude Include="button\button.h" />
     <ClInclude Include="gamestate\gamestate.h" />
+    <ClInclude Include="gamestate\ingame\enemy\enemy.h" />
     <ClInclude Include="gamestate\ingame\ingame.h" />
     <ClInclude Include="gamestate\ingame\map\map.h" />
     <ClInclude Include="gamestate\ingame\player\player.h" />
-    <ClInclude Include="gamestate\ingame\player\playerstate\furios\furios.h" />
-    <ClInclude Include="gamestate\ingame\player\playerstate\gras\gras.h" />
+    <ClInclude Include="gamestate\ingame\player\playerstate\mic\mic.h" />
+    <ClInclude Include="gamestate\ingame\player\playerstate\olimpic\olimpic.h" />
     <ClInclude Include="gamestate\ingame\player\playerstate\playerstate.h" />
     <ClInclude Include="gamestate\ingame\player\playerstate\simplu\simplu.h" />
     <ClInclude Include="gamestate\mainmenu\mainmenu.h" />

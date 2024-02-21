@@ -1,27 +1,33 @@
-#include "simplu.h"
+#include "mic.h"
 
 #include "../../../../../util/util.h"
 #include "../../../../../util/keyboard/keyboard.h"
 #include "../../player.h"
 #include "././../../../ingame.h"
 
-Player_Simplu::Player_Simplu(player * player_ptr) {
+Player_Mic::Player_Mic(player* player_ptr) {
 	this->player_ptr = player_ptr;
 
-	texture.loadFromFile("samples/player_simplu.png");
+	texture.loadFromFile("samples/player_angry.png");
 	sprite.setTexture(&texture);
 
-	sprite.setSize(sf::Vector2f(48.0 * 2, 64.0 * 2));
+	sf::Vector2f ss(30 * 2, 40 * 2);
+
+	sprite.setSize(sf::Vector2f(ss.x, ss.y));
 
 	hitbox_size = sprite.getSize();
-	hitbox_size = sf::Vector2f(48.0 * 2 - 12, 64.0 * 2 - 16);
+	
+	hitbox_size = sf::Vector2f(ss.x - ss.x/8, ss.y-ss.y/8);
 	hitbox_sprite_offset = sf::Vector2f(6, 8);
 }
-void Player_Simplu::update() {
+
+void Player_Mic::update() {
 	update_movement();
-}
-void Player_Simplu::update_movement() {
+};
+void Player_Mic::update_movement() {
 	sf::View view = util::window.getView();
+
+	//todo: crouch in loc de jump lol // sau poate un cripple cu crawl kekw
 
 	sf::Vector2f velocity = player_ptr->getVelocity();
 	in_game* ingame = player_ptr->getIngame();
@@ -64,7 +70,7 @@ void Player_Simplu::update_movement() {
 			current_size) == 0) {
 			velocity.y = 0; // pe pamant
 			if (util::keyboard::just_pressed(sf::Keyboard::Key::Space)) {
-				velocity.y -= 10;
+				velocity.y -= 8;
 				jumping = 1;
 			}
 		}
