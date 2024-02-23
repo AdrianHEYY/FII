@@ -12,16 +12,22 @@
 
 #include "button/button.h"
 
+#include "chrono"
+#include "Windows.h"
+
 int main() {
 	Game game;
 	
-	util::window.setFramerateLimit(144);
+	//util::window.setFramerateLimit(144);
 
 	util::font.loadFromFile("samples/Roboto-Medium.ttf");
 	
+	float fps = 144.0;
+	util::window.setFramerateLimit(144);
+	sf::Clock delta_clock;
+
 	while (util::window.isOpen()) {
 		sf::Event ev;
-
 		util::keyboard::update_frame();
 		util::mouse::update_frame();
 		while (util::window.pollEvent(ev)) {
@@ -50,11 +56,20 @@ int main() {
 		
 		util::window.clear(sf::Color::White);
 
+
 		game.draw();
 
 		util::window.display();
 
 		if (util::keyboard::is_pressed(sf::Keyboard::Key::Escape)) util::window.close();
+
+		long long duration = delta_clock.restart().asMilliseconds();
+		long long ms_frame = (1000.0 / 144.0);
+		if (duration < ms_frame) {
+			Sleep(ms_frame - duration);
+			duration = ms_frame;
+		}
+		util::delta_time = float(duration) / float(ms_frame);
 	}
 
 	return 0;

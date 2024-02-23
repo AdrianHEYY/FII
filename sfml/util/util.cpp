@@ -3,7 +3,8 @@
 namespace util {
 	const int window_size_x = sf::VideoMode::getDesktopMode().width;
 	const int window_size_y = sf::VideoMode::getDesktopMode().height;
-	extern sf::RenderWindow window(sf::VideoMode(window_size_x, window_size_y), "Title", sf::Style::Fullscreen);
+	sf::RenderWindow window(sf::VideoMode(window_size_x, window_size_y), "Title", sf::Style::Fullscreen);
+    float delta_time;
 
 	sf::Font font;
 

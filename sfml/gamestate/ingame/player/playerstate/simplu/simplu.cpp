@@ -5,25 +5,41 @@
 #include "../../player.h"
 #include "././../../../ingame.h"
 
-Player_Simplu::Player_Simplu(player * player_ptr) {
+Player_Simplu::Player_Simplu(player * player_ptr) 
+: animation_walk("samples/animations/mc-walk", &sprite) ,
+  animation_idle("samples/animations/mc-idle", &sprite) {
 	this->player_ptr = player_ptr;
 
-	texture.loadFromFile("samples/player_simplu.png");
-	sprite.setTexture(&texture);
+	sprite.setSize(sf::Vector2f(32.0f * 4, 32.0f * 4));
 
-	sprite.setSize(sf::Vector2f(48.0 * 2, 64.0 * 2));
+	hitbox_size = sf::Vector2f(48.0 * 2 - 38, 64.0 * 2 - 16); // todo pune astea intr-un text file sau ceva ca nu prea merge aicea adica n-0i rau dar meh
+	hitbox_sprite_offset = sf::Vector2f(40, 8);
 
-	hitbox_size = sprite.getSize();
-	hitbox_size = sf::Vector2f(48.0 * 2 - 12, 64.0 * 2 - 16);
-	hitbox_sprite_offset = sf::Vector2f(6, 8);
+	animation_idle.reset();
+	animation_idle.update();
 }
+#include <iostream>
 void Player_Simplu::update() {
-	update_movement();
+	float dt = std::floor(util::delta_time);
+	//std::cout << dt << '\n';
+	for (int i = 0; i < dt - 1; i++) {
+		update_movement(1.0f);
+	}
+	//std::cout << util::delta_time - float(dt);
+	update_movement(1 + util::delta_time - float(dt));
+	//update_movement(1.0f);
 }
+
 void Player_Simplu::update_movement() {
+	update_movement(1.0f);
+}
+
+void Player_Simplu::update_movement(float delta_time) {
 	sf::View view = util::window.getView();
 
 	sf::Vector2f velocity = player_ptr->getVelocity();
+	sf::Vector2f old_velocity = velocity;
+
 	in_game* ingame = player_ptr->getIngame();
 
 	if (util::keyboard::is_pressed(sf::Keyboard::A))
@@ -48,20 +64,19 @@ void Player_Simplu::update_movement() {
 	sf::Vector2f current_pos(current_hb.left, current_hb.top);
 	sf::Vector2f current_size(current_hb.width, current_hb.height);
 
-	if (ingame->map_empty_rect(current_pos + velocity, current_size) == 0) {
-		velocity.x = 0;
+	sf::FloatRect rect_vel_x = ingame->map_empty_rect(current_pos + velocity, current_size);
+	if (rect_vel_x.height != 0 && rect_vel_x.width != 0) {
+		velocity.x = 0; // todo seteaza pozitia noua fix langa perete
 	}
 
 	static bool jumping = 0;
 
 	if (jumping == 0) {
-		//todo: coliziunea astea e MEREU cu un pixel mai sus decat hitboxul la mapa si e asa de enervant
-		// nush ce sa-i fac ca sa o rezolv fara sa pun doar hitboxul in sice astfel incat sa merga bine
 		velocity.y += 1;
 		if (velocity.y > 10) velocity.y = 10;
 
-		if (ingame->map_empty_rect(current_pos + velocity,
-			current_size) == 0) {
+		sf::FloatRect rect_vel_y = ingame->map_empty_rect(current_pos + sf::Vector2f(0, velocity.y), current_size);
+		if (rect_vel_y.height != 0 && rect_vel_y.width != 0) { // todo podea, lipeste sprite-ul
 			velocity.y = 0; // pe pamant
 			if (util::keyboard::just_pressed(sf::Keyboard::Key::Space)) {
 				velocity.y -= 10;
@@ -73,19 +88,46 @@ void Player_Simplu::update_movement() {
 	else {
 		velocity.y += 0.3;
 		if (velocity.y > 0) velocity.y = 0, jumping = 0;
-		if (velocity.y >= 0 && ingame->map_empty_rect(current_pos + velocity, current_size) == 0) {
+
+		sf::FloatRect rect_vel_y = ingame->map_empty_rect(current_pos + sf::Vector2f(0, velocity.y), current_size);
+		if (velocity.y < 0 && rect_vel_y.height != 0 && rect_vel_y.width != 0) { // todo tavan, la fel
 			velocity.y = 0;
 			jumping = 0;
 		}
-		//todo: coliziune tavan, doar ia punctele de sus in loc de toate plm
 	}
 
-	move(velocity);
+	// animatiile vvv
+	if (velocity.y == 0) {
+		if (old_velocity.x == 0 && velocity.x != 0) { // am inceput sa ma misc
+			animation_walk.reset();
+			animation_walk.update(); // todo: cand ma misc in stanga, oglindeste asta, paramentru la fucntie or sum shit like that, posibil mica animatie de intoarcere? (nope)
+		}
+		else if (old_velocity.x != 0 && velocity.x != 0) { // ma misc in continuare
+			animation_walk.update();
+		}
+		else if (old_velocity.x != 0 && velocity.x == 0) { // idle start
+			animation_idle.reset();
+			animation_idle.update();
+		}
+		else if (old_velocity.x == 0 && velocity.x == 0) { // idle continua
+			animation_idle.update();
+		}
+	}
+	// animatiile ^^^
 
-	view.move(velocity);
+	sf::Vector2f delta_velocity = velocity * delta_time;
 
-	player_ptr->setVelocity(velocity);
-	player_ptr->setOffPosition(player_ptr->getOffPosition() + velocity);
+	move(delta_velocity);
 
+	sf::FloatRect rect_vel_y = ingame->map_empty_rect(get_hitbox());
+	if (rect_vel_y.height != 0 && rect_vel_y.width != 0) { // in caz de ceva doar ma opresc 
+		move(-delta_velocity);
+		player_ptr->setVelocity({ 0, 0 }); // sper din suflet ca ce fac aici merge bine
+		return;
+	}
+
+	view.move(delta_velocity);
+	player_ptr->setVelocity(velocity); // aici velocity, nu delta-velocity!
+	player_ptr->setOffPosition(player_ptr->getOffPosition() + delta_velocity);
 	util::window.setView(view);
 }

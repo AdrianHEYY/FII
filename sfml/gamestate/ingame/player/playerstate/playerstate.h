@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include "../../../../animation/animation.h"
 
 enum player_states {
 	SIMPLU, 
@@ -32,6 +33,7 @@ protected:
 	player* player_ptr;
 
 	sf::RectangleShape sprite;
+
 	sf::Texture texture;
 
 	sf::Vector2f hitbox_size;

@@ -18,16 +18,15 @@ void in_game::update()
 	map.update(sprite.getOffPosition());
 }
 
-bool in_game::map_empty_rect(sf::Vector2f poz_map, sf::Vector2f size) {
-	if (!map.can_go(poz_map)) return 0;
-	if (!map.can_go(poz_map + sf::Vector2f(size.x, 0))) return 0;
-	if (!map.can_go(poz_map + sf::Vector2f(0, size.y))) return 0;
-	if (!map.can_go(poz_map + size)) return 0;
-
-	return 1;
+sf::FloatRect in_game::map_empty_rect(sf::Vector2f poz_map, sf::Vector2f size) {
+	//if (!map.can_go(poz_map)) return 0;
+	//if (!map.can_go(poz_map + sf::Vector2f(size.x, 0))) return 0;
+	//if (!map.can_go(poz_map + sf::Vector2f(0, size.y))) return 0;
+	//if (!map.can_go(poz_map + size)) return 0;
+	return map.intersects_walls(sf::FloatRect(poz_map, size));
 }
 
-bool in_game::map_empty_rect(sf::FloatRect rect) {
+sf::FloatRect in_game::map_empty_rect(sf::FloatRect rect) {
 	sf::Vector2f poz_map(rect.left, rect.top);
 	sf::Vector2f size(rect.width, rect.height);
 	return map_empty_rect(poz_map, size);

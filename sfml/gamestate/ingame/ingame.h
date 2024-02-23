@@ -11,8 +11,8 @@ public:
 	void draw() override;
 	void update() override;
 
-	bool map_empty_rect(sf::Vector2f pos, sf::Vector2f size);
-	bool map_empty_rect(sf::FloatRect rect);
+	sf::FloatRect map_empty_rect(sf::Vector2f pos, sf::Vector2f size);
+	sf::FloatRect map_empty_rect(sf::FloatRect rect);
 private:
 	player sprite;
 	Map map;

@@ -1,13 +1,26 @@
-#include "map.h"
+#include <fstream> 
+//#include <iostream>
 
+#include "map.h"
 
 #include "../../../util/util.h"
 
 Map::Map() {
-	collision_map.loadFromFile("samples/collision_map.png");
-	texture_map.loadFromFile("samples/texture_map.png");
+
+	texture_map.loadFromFile("samples/mapa_test_caracter.png");
 	sprite.setTexture(&texture_map);
 	
+	std::ifstream in;
+	in.open("samples/mapa_test_caracter.txt");
+	if (!in.is_open()) {
+		throw std::runtime_error("vezi ca nu s-o deschis fisieru cu coliziunile");
+	}
+	int a, b, c, d;
+	while (in >> a >> b >> c >> d) {
+		walls.push_back(sf::IntRect(a, b, c - a, d - b));
+	}
+	in.close();
+
 	sprite.setPosition({ 0, 0 });
 	sprite.setSize(sf::Vector2f(util::window.getSize()));
 
@@ -25,14 +38,29 @@ void Map::draw() {
 	util::window.draw(sprite);
 }
 
-bool Map::can_go(sf::Vector2f coord) {
-	//todo: in loc sa verifici asa un punct, cand creezi mapa trb un fisier cu toate dreptunghiurile(coordonatele lor) si faci AABB cu toate (mai stabil + rezolva problema cu phase-through)
-	sf::Vector2f local_coord = sf::Vector2f(screen_x * coord.x / 1920, screen_y * coord.y / 1080);
-	sf::Vector2u ucoord = sf::Vector2u(local_coord);
-	if (ucoord.x < 0 || ucoord.x >= collision_map.getSize().x || ucoord.y < 0 || ucoord.y >= collision_map.getSize().y) return 0;
-	sf::Color col = collision_map.getPixel(ucoord.x, ucoord.y);
-	if (col.r == 0 && col.g == 0 && col.b == 0) {
-		return 0;
+sf::FloatRect Map::intersects_walls(sf::FloatRect rect) { 
+	sf::Vector2f st_sus(rect.left, rect.top);
+	sf::Vector2f size(rect.width, rect.height);
+
+	sf::Vector2u a = convert_to_local_space(st_sus);
+	sf::Vector2u b = convert_to_local_space(size);
+	
+	sf::IntRect u(a.x, a.y, b.x, b.y);
+
+	auto intersects = [&](sf::IntRect& a, sf::IntRect& b) -> bool {
+		if (a.left + a.width < b.left || b.left + b.width < a.left)
+			return false;
+		if (a.top + a.height < b.top || b.top + b.height < a.top)
+			return false;
+		return true; 
+	};
+
+	for (auto& i : walls) {
+		if (intersects(i, u) == 1) {
+			return sf::FloatRect(sf::Vector2f(convert_to_global_space(sf::Vector2f(i.left, i.top))), 
+				sf::Vector2f(convert_to_global_space(sf::Vector2f(i.width, i.height))));
+		}
 	}
-	return 1;
+
+	return sf::FloatRect(0, 0, 0, 0);
 }

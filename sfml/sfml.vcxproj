@@ -144,6 +144,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="animation\animation.cpp" />
     <ClCompile Include="button\button.cpp" />
     <ClCompile Include="FII.cpp" />
     <ClCompile Include="gamestate\gamestate.cpp" />
@@ -162,6 +163,7 @@
     <ClCompile Include="util\util.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="animation\animation.h" />
     <ClInclude Include="button\button.h" />
     <ClInclude Include="gamestate\gamestate.h" />
     <ClInclude Include="gamestate\ingame\enemy\enemy.h" />

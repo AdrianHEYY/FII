@@ -15,12 +15,16 @@ void Player_State::draw() {
 	util::window.draw(sprite);
 	
 	// vvv hitbox vvv
-	sf::RectangleShape rect;
-	sf::Vector2f oldPos = sprite.getPosition();
-	rect.setPosition(hitbox_sprite_offset + oldPos);
-	rect.setSize(hitbox_size);
-	rect.setFillColor(sf::Color(0, 255, 0, 122));
-	util::window.draw(rect);
+	bool deb = 1;
+	if (deb == 1) {
+		sf::RectangleShape rect;
+		sf::Vector2f oldPos = sprite.getPosition();
+		rect.setPosition(hitbox_sprite_offset + oldPos);
+		rect.setSize(hitbox_size);
+		rect.setFillColor(sf::Color(0, 255, 0, 122));
+		util::window.draw(rect);
+	}
+
 }
 
 void Player_State::update() {
