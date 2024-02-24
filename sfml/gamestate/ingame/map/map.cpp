@@ -7,11 +7,11 @@
 
 Map::Map() {
 
-	texture_map.loadFromFile("samples/mapa_test_caracter.png");
+	texture_map.loadFromFile("samples/mapa_finala.png");
 	sprite.setTexture(&texture_map);
 	
 	std::ifstream in;
-	in.open("samples/mapa_test_caracter.txt");
+	in.open("samples/mapa_finala.txt");
 	if (!in.is_open()) {
 		throw std::runtime_error("vezi ca nu s-o deschis fisieru cu coliziunile");
 	}

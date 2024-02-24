@@ -16,17 +16,20 @@ Player_Simplu::Player_Simplu(player * player_ptr)
 	hitbox_sprite_offset = sf::Vector2f(40, 8);
 
 	animation_idle.reset();
-	animation_idle.update();
+	animation_walk.reset();
 }
 #include <iostream>
 void Player_Simplu::update() {
 	float dt = std::floor(util::delta_time);
-	//std::cout << dt << '\n';
+	
+	//std::cout << "Frame\n";
 	for (int i = 0; i < dt - 1; i++) {
 		update_movement(1.0f);
 	}
-	//std::cout << util::delta_time - float(dt);
+	
 	update_movement(1 + util::delta_time - float(dt));
+
+	//std::cout << '\n';
 	//update_movement(1.0f);
 }
 
@@ -35,6 +38,7 @@ void Player_Simplu::update_movement() {
 }
 
 void Player_Simplu::update_movement(float delta_time) {
+	//std::cout << delta_time << ' ';
 	sf::View view = util::window.getView();
 
 	sf::Vector2f velocity = player_ptr->getVelocity();

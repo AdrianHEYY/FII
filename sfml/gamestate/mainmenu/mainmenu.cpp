@@ -36,6 +36,7 @@ void main_menu::update()
 
 	float play_y1= play_button_pos.y;
 	float play_y2= play_y1 + play_button.getSize().y;
+
 	if((pos_x>=play_x1&&pos_x<=play_x2)&&(pos_y>=play_y1&&pos_y<=play_y2))
 	{
 		if (util::mouse::just_released()) {

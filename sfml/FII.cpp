@@ -17,14 +17,14 @@
 
 int main() {
 	Game game;
-	
-	//util::window.setFramerateLimit(144);
 
 	util::font.loadFromFile("samples/Roboto-Medium.ttf");
 	
-	float fps = 144.0;
+	float fps = 144;
 	util::window.setFramerateLimit(144);
+
 	sf::Clock delta_clock;
+	delta_clock.restart();
 
 	while (util::window.isOpen()) {
 		sf::Event ev;
@@ -56,7 +56,6 @@ int main() {
 		
 		util::window.clear(sf::Color::White);
 
-
 		game.draw();
 
 		util::window.display();
@@ -64,12 +63,17 @@ int main() {
 		if (util::keyboard::is_pressed(sf::Keyboard::Key::Escape)) util::window.close();
 
 		long long duration = delta_clock.restart().asMilliseconds();
-		long long ms_frame = (1000.0 / 144.0);
+		std::cout << duration << '\n';
+		long long ms_frame = (1000.0 / fps);
 		if (duration < ms_frame) {
-			Sleep(ms_frame - duration);
+			Sleep(std::max(ms_frame - duration - 2, long long(0)));
 			duration = ms_frame;
 		}
 		util::delta_time = float(duration) / float(ms_frame);
+		//std::cout << util::delta_time << '\n';
+		
+		//Sleep(1);
+		//todo INLOCUIESTE ORICE ARE LEGATURA CU TIMPUL CU LIBRARIA CHORNO DOAMNE FEREASCA-MA DE WINDOWS.H
 	}
 
 	return 0;
