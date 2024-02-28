@@ -18,27 +18,18 @@ Player_Simplu::Player_Simplu(player * player_ptr)
 	animation_idle.reset();
 	animation_walk.reset();
 }
-#include <iostream>
+
 void Player_Simplu::update() {
-	float dt = std::floor(util::delta_time);
-	
-	//std::cout << "Frame\n";
-	for (int i = 0; i < dt - 1; i++) {
-		update_movement(1.0f);
+	const float fixedTimeStep = 1.0f; 
+
+	static float accumulatedTime = 0.0f;
+	accumulatedTime += util::delta_time;
+	while (accumulatedTime >= fixedTimeStep) { 
+		update_movement(); 
+		accumulatedTime -= fixedTimeStep;
 	}
-	
-	update_movement(1 + util::delta_time - float(dt));
-
-	//std::cout << '\n';
-	//update_movement(1.0f);
 }
-
 void Player_Simplu::update_movement() {
-	update_movement(1.0f);
-}
-
-void Player_Simplu::update_movement(float delta_time) {
-	//std::cout << delta_time << ' ';
 	sf::View view = util::window.getView();
 
 	sf::Vector2f velocity = player_ptr->getVelocity();
@@ -48,19 +39,21 @@ void Player_Simplu::update_movement(float delta_time) {
 
 	if (util::keyboard::is_pressed(sf::Keyboard::A))
 	{
-		velocity.x--;
-		if (velocity.x < -4)
-			velocity.x = -4;
+		velocity.x-= 1.5; //todo 1.5 si 6 requires tweaking
+		if (velocity.x < -6)
+			velocity.x = -6;
 	}
 	if (util::keyboard::is_pressed(sf::Keyboard::D))
 	{
-		velocity.x++;
-		if (velocity.x > 4)
-			velocity.x = 4;
+		velocity.x+= 1.5;
+		if (velocity.x > 6)
+			velocity.x = 6;
 	}
 	if (!util::keyboard::is_pressed(sf::Keyboard::A) && !util::keyboard::is_pressed(sf::Keyboard::D) && velocity.x != 0)
 	{
+		int oldX = velocity.x;
 		velocity.x += ((velocity.x < 0) ? 1.0f : -1.0f);
+		if ((oldX < 0 && velocity.x > 0) || (oldX > 0 && velocity.x < 0)) velocity.x = 0;
 	}
 
 	sf::FloatRect current_hb = get_hitbox();
@@ -77,13 +70,13 @@ void Player_Simplu::update_movement(float delta_time) {
 
 	if (jumping == 0) {
 		velocity.y += 1;
-		if (velocity.y > 10) velocity.y = 10;
+		if (velocity.y > 11) velocity.y = 11;
 
 		sf::FloatRect rect_vel_y = ingame->map_empty_rect(current_pos + sf::Vector2f(0, velocity.y), current_size);
 		if (rect_vel_y.height != 0 && rect_vel_y.width != 0) { // todo podea, lipeste sprite-ul
 			velocity.y = 0; // pe pamant
 			if (util::keyboard::just_pressed(sf::Keyboard::Key::Space)) {
-				velocity.y -= 10;
+				velocity.y -= 11;
 				jumping = 1;
 			}
 		}
@@ -119,7 +112,7 @@ void Player_Simplu::update_movement(float delta_time) {
 	}
 	// animatiile ^^^
 
-	sf::Vector2f delta_velocity = velocity * delta_time;
+	sf::Vector2f delta_velocity = velocity;
 
 	move(delta_velocity);
 

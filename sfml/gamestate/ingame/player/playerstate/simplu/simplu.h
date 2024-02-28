@@ -8,7 +8,6 @@ public:
 	void update() override;
 private:
 	void update_movement();
-	void update_movement(float delta_time);
 
 	Animation animation_walk;
 	Animation animation_idle;

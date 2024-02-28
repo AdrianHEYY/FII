@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <thread>
 
 #include <SFML/Graphics.hpp>
 
@@ -15,16 +16,45 @@
 #include "chrono"
 #include "Windows.h"
 
+void preciseSleep(double seconds) { // not stolen code
+	using namespace std;
+	using namespace std::chrono;
+
+	static double estimate = 5e-3;
+	static double mean = 5e-3;
+	static double m2 = 0;
+	static int64_t count = 1;
+
+	while (seconds > estimate) {
+		auto start = high_resolution_clock::now();
+		this_thread::sleep_for(milliseconds(1));
+		auto end = high_resolution_clock::now();
+
+		double observed = (end - start).count() / 1e9;
+		seconds -= observed;
+
+		++count;
+		double delta = observed - mean;
+		mean += delta / count;
+		m2 += delta * (observed - mean);
+		double stddev = sqrt(m2 / (count - 1));
+		estimate = mean + stddev;
+	}
+
+	// spin lock
+	auto start = high_resolution_clock::now();
+	while ((high_resolution_clock::now() - start).count() / 1e9 < seconds);
+}
+
 int main() {
 	Game game;
 
 	util::font.loadFromFile("samples/Roboto-Medium.ttf");
 	
 	float fps = 144;
-	util::window.setFramerateLimit(144);
+	float frame_should_last_ms = 1000.0 / 144.0;
 
-	sf::Clock delta_clock;
-	delta_clock.restart();
+	std::chrono::high_resolution_clock::time_point last_frame = std::chrono::high_resolution_clock::now();
 
 	while (util::window.isOpen()) {
 		sf::Event ev;
@@ -62,18 +92,20 @@ int main() {
 
 		if (util::keyboard::is_pressed(sf::Keyboard::Key::Escape)) util::window.close();
 
-		long long duration = delta_clock.restart().asMilliseconds();
-		std::cout << duration << '\n';
-		long long ms_frame = (1000.0 / fps);
-		if (duration < ms_frame) {
-			Sleep(std::max(ms_frame - duration - 2, long long(0)));
-			duration = ms_frame;
+		std::chrono::high_resolution_clock::time_point this_frame = std::chrono::high_resolution_clock::now();
+		long long duration = std::chrono::duration_cast<std::chrono::milliseconds>(this_frame - last_frame).count();
+		if (duration < frame_should_last_ms) {
+			preciseSleep((frame_should_last_ms - duration) / 1000.0);
+			std::chrono::high_resolution_clock::time_point now_time = std::chrono::high_resolution_clock::now();
+			duration = std::chrono::duration_cast<std::chrono::milliseconds>(now_time - last_frame).count();
+			last_frame = now_time;
 		}
-		util::delta_time = float(duration) / float(ms_frame);
+		else {
+			last_frame = this_frame;
+		}
+		util::delta_time = duration / frame_should_last_ms;
+
 		//std::cout << util::delta_time << '\n';
-		
-		//Sleep(1);
-		//todo INLOCUIESTE ORICE ARE LEGATURA CU TIMPUL CU LIBRARIA CHORNO DOAMNE FEREASCA-MA DE WINDOWS.H
 	}
 
 	return 0;
