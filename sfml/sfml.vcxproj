@@ -149,6 +149,7 @@
     <ClCompile Include="FII.cpp" />
     <ClCompile Include="gamestate\gamestate.cpp" />
     <ClCompile Include="gamestate\ingame\enemy\enemy.cpp" />
+    <ClCompile Include="gamestate\ingame\enemy\enemyflying\enemyflying.cpp" />
     <ClCompile Include="gamestate\ingame\ingame.cpp" />
     <ClCompile Include="gamestate\ingame\map\map.cpp" />
     <ClCompile Include="gamestate\ingame\player\player.cpp" />
@@ -167,6 +168,7 @@
     <ClInclude Include="button\button.h" />
     <ClInclude Include="gamestate\gamestate.h" />
     <ClInclude Include="gamestate\ingame\enemy\enemy.h" />
+    <ClInclude Include="gamestate\ingame\enemy\enemyflying\enemyflying.h" />
     <ClInclude Include="gamestate\ingame\ingame.h" />
     <ClInclude Include="gamestate\ingame\map\map.h" />
     <ClInclude Include="gamestate\ingame\player\player.h" />

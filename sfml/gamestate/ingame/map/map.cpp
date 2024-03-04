@@ -9,22 +9,15 @@ Map::Map() {
 
 	texture_map.loadFromFile("samples/mapa_finala.png");
 	sprite.setTexture(&texture_map);
-	
-	std::ifstream in;
-	in.open("samples/mapa_finala.txt");
-	if (!in.is_open()) {
-		throw std::runtime_error("vezi ca nu s-o deschis fisieru cu coliziunile");
-	}
-	int a, b, c, d;
-	while (in >> a >> b >> c >> d) {
-		walls.push_back(sf::IntRect(a, b, c - a, d - b));
-	}
-	in.close();
 
 	sprite.setPosition({ 0, 0 });
 	sprite.setSize(sf::Vector2f(util::window.getSize()));
 
 	setRect(0, 0);
+}
+void Map::add_wall_collision(int a, int b, int c, int d) {
+
+	walls.push_back(sf::IntRect(a, b, c - a, d - b));
 }
 
 void Map::update(sf::Vector2f player_pos) {

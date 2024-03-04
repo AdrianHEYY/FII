@@ -3,6 +3,7 @@
 #include "../gamestate.h"
 #include "player/player.h"
 #include "map/map.h"
+#include "enemy/enemyflying/enemyflying.h"
 
 class in_game : public game_state
 {
@@ -16,4 +17,5 @@ public:
 private:
 	player sprite;
 	Map map;
+	std::vector<Enemy*> enemies;
 };

@@ -11,6 +11,7 @@ player::player(in_game* game) {
 	current_player = new Player_Simplu(this);
 	velocity = sf::Vector2f(0.0f, 0.0f);
 
+	// 8k 4k
 	sf::Vector2f start_pos = sf::Vector2f(8000.0f, 4000.0f);
 	
 	off_position = sf::Vector2f(start_pos);
@@ -26,23 +27,27 @@ player::player(in_game* game) {
 void player::draw() {
 	current_player->draw();
 }
-
+#include <iostream> //todo
 void player::update() {
+	sf::Vector2f pos = current_player->get_sprite().getPosition();
+	std::cout << pos.x << ' ' << pos.y << '\n';
 	current_player->update();
-	if (util::keyboard::just_released(sf::Keyboard::O)) {
-		sf::Vector2f position = current_player->get_sprite().getPosition();
+	if (1 == 0) { //todo
+		if (util::keyboard::just_released(sf::Keyboard::O)) {
+			sf::Vector2f position = current_player->get_sprite().getPosition();
 
-		current_player->~Player_State();
-		current_player = new Player_Olimpic(this);
+			current_player->~Player_State();
+			current_player = new Player_Olimpic(this);
 
-		current_player->get_sprite().setPosition(position);
-	}
-	else if (util::keyboard::just_released(sf::Keyboard::M)) {
-		sf::Vector2f position = current_player->get_sprite().getPosition();
+			current_player->get_sprite().setPosition(position);
+		}
+		else if (util::keyboard::just_released(sf::Keyboard::M)) {
+			sf::Vector2f position = current_player->get_sprite().getPosition();
 
-		current_player->~Player_State();
-		current_player = new Player_Mic(this);
+			current_player->~Player_State();
+			current_player = new Player_Mic(this);
 
-		current_player->get_sprite().setPosition(position);
+			current_player->get_sprite().setPosition(position);
+		}
 	}
 }
