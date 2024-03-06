@@ -29,23 +29,24 @@ void Player_Simplu::update() {
 		accumulatedTime -= fixedTimeStep;
 	}
 }
+
 void Player_Simplu::update_movement() {
+	in_game* ingame = player_ptr->getIngame();
 	sf::View view = util::window.getView();
 
 	sf::Vector2f velocity = player_ptr->getVelocity();
 	sf::Vector2f old_velocity = velocity;
 
-	in_game* ingame = player_ptr->getIngame();
 
 	if (util::keyboard::is_pressed(sf::Keyboard::A))
 	{
-		velocity.x-= 1.5; //todo 1.5 si 6 requires tweaking
+		velocity.x -= 1.5; //todo 1.5 si 6 requires tweaking
 		if (velocity.x < -6)
 			velocity.x = -6;
 	}
 	if (util::keyboard::is_pressed(sf::Keyboard::D))
 	{
-		velocity.x+= 1.5;
+		velocity.x += 1.5;
 		if (velocity.x > 6)
 			velocity.x = 6;
 	}
@@ -57,17 +58,10 @@ void Player_Simplu::update_movement() {
 	}
 
 	sf::FloatRect current_hb = get_hitbox();
-
 	sf::Vector2f current_pos(current_hb.left, current_hb.top);
 	sf::Vector2f current_size(current_hb.width, current_hb.height);
 
-	sf::FloatRect rect_vel_x = ingame->map_empty_rect(current_pos + velocity, current_size);
-	if (rect_vel_x.height != 0 && rect_vel_x.width != 0) {
-		velocity.x = 0; // todo seteaza pozitia noua fix langa perete
-	}
-
 	static bool jumping = 0;
-
 	if (jumping == 0) {
 		velocity.y += 1;
 		if (velocity.y > 11) velocity.y = 11;
@@ -91,6 +85,20 @@ void Player_Simplu::update_movement() {
 			velocity.y = 0;
 			jumping = 0;
 		}
+	}
+	
+	sf::FloatRect rect_vel_x = ingame->map_empty_rect(current_pos + sf::Vector2f(velocity.x, 0), current_size);
+	if (rect_vel_x.height != 0 && rect_vel_x.width != 0) {
+		velocity.x = 0; // todo seteaza pozitia noua fix langa perete
+	}
+	sf::FloatRect rect_vel_y = ingame->map_empty_rect(current_pos + sf::Vector2f(0, velocity.y), current_size);
+	if (rect_vel_y.height != 0 && rect_vel_y.width != 0) {
+		velocity.y = 0; 
+	}
+	sf::FloatRect rect_vel_xy = ingame->map_empty_rect(current_pos + sf::Vector2f(velocity.x, velocity.y), current_size);
+	if (rect_vel_xy.height != 0 && rect_vel_xy.width != 0) {
+		velocity.x = 0; // todo seteaza pozitia noua fix langa perete
+		velocity.y = 0;
 	}
 
 	// animatiile vvv
@@ -116,8 +124,8 @@ void Player_Simplu::update_movement() {
 
 	move(delta_velocity);
 
-	sf::FloatRect rect_vel_y = ingame->map_empty_rect(get_hitbox());
-	if (rect_vel_y.height != 0 && rect_vel_y.width != 0) { // in caz de ceva doar ma opresc 
+	sf::FloatRect rect_vel_final = ingame->map_empty_rect(get_hitbox());
+	if (rect_vel_final.height != 0 && rect_vel_final.width != 0) { // in caz de ceva doar ma opresc 
 		move(-delta_velocity);
 		player_ptr->setVelocity({ 0, 0 }); // sper din suflet ca ce fac aici merge bine
 		return;
