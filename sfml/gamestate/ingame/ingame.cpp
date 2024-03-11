@@ -42,8 +42,25 @@ in_game::in_game(Game* game)
 					in >> st_pos.x >> st_pos.y >> end_pos.x >> end_pos.y >> speed >> rest_time;
 					st_pos = map.convert_to_global_space(st_pos);
 					end_pos = map.convert_to_global_space(end_pos);
-					Enemy_Flying* new_e = new Enemy_Flying(st_pos, end_pos, speed, rest_time);
+					Enemy_Flying* new_e = new Enemy_Flying(this, st_pos, end_pos, speed, rest_time);
 					enemies.push_back(new_e);
+				}
+				if (input == "spitter") {
+					sf::Vector2f pos;
+					float angle, freq, speed;
+					in >> pos.x >> pos.y >> angle >> freq >> speed;
+					pos = map.convert_to_global_space(pos);
+					enemies.push_back(new Spitter(this, pos, angle, freq, speed));
+					//std::cout << "Here\n";
+				}
+				if (input == "spike") {
+					sf::Vector2f p1, p2, p3;
+					float a, b, c, d, e, f;
+					in >> p1.x >> p1.y >> p2.x >> p2.y >> p3.x >> p3.y >> a >> b >> c >> d >> e >> f;
+					p1 = map.convert_to_global_space(p1);
+					p2 = map.convert_to_global_space(p2);
+					p3 = map.convert_to_global_space(p3);
+					enemies.push_back(new Spike(this, p1, p2, p3, a, b, c, d, e, f));
 				}
 			}
 			break;
@@ -52,7 +69,6 @@ in_game::in_game(Game* game)
 	}
 	in.close();
 	// ^^^
-
 
 }
 

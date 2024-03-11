@@ -1,14 +1,18 @@
 #include "util.h"
 
 namespace util {
-	const int window_size_x = sf::VideoMode::getDesktopMode().width;
-	const int window_size_y = sf::VideoMode::getDesktopMode().height;
-	sf::RenderWindow window(sf::VideoMode(window_size_x, window_size_y), "Title", sf::Style::Fullscreen);
+    const int window_size_x = sf::VideoMode::getDesktopMode().width;
+    const int window_size_y = sf::VideoMode::getDesktopMode().height;
+    sf::RenderWindow window(sf::VideoMode(window_size_x, window_size_y), "Title", sf::Style::Fullscreen);
     float delta_time;
 
-	sf::Font font;
+    float convert_ms_to_frames(int ms) {
+        return float(ms) * 144.0 / 1000.0;
+    }
 
-	bool rect_collision(sf::RectangleShape& a, sf::RectangleShape& b) {
+    sf::Font font;
+
+    bool rect_collision(sf::RectangleShape& a, sf::RectangleShape& b) {
         sf::Vector2f posA = a.getPosition();
         sf::Vector2f sizeA = a.getSize();
         sf::Vector2f posB = b.getPosition();
@@ -21,5 +25,5 @@ namespace util {
             posA.y + sizeA.y > posB.y;
 
         return xCollision && yCollision;
-	}
+    }
 }

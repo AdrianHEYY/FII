@@ -10,7 +10,10 @@ public:
 	Animation(std::string filepath, sf::RectangleShape *sprite);
 	void update();
 	void reset();
+	void mirror(bool is_mirrored);
 private:
+	bool is_mirrored = 0;
+
 	std::vector<int> frame_times;
 	int current_frame;
 	std::chrono::high_resolution_clock::time_point last_time;
