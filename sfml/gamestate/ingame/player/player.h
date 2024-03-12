@@ -35,11 +35,21 @@ private:
 	sf::Vector2f velocity;
 	sf::Vector2f off_position;
 
+	bool facing = 0; // 0 = left, 1 = right
+
+	bool can_big_jump = 1;
+	bool big_jumping = 0;
+	bool big_jumping_done = 0;
+	std::chrono::high_resolution_clock::time_point big_jump_time; // start_time
+
 	bool can_wall_grab = 1;
 	bool wall_grab = 0;
 	bool wall_grab_direction = 0; // 0 = left, 1 = right
 	
+	bool can_crouch = 1;
+	bool is_crouching = 0;
 
+	bool on_ground = 0;
 
 	sf::RectangleShape sprite;
 	sf::Texture texture;
@@ -49,4 +59,13 @@ private:
 
 	Animation animation_walk;
 	Animation animation_idle;
+
+	Animation animation_jump;
+	Animation animation_fall;
+	
+	Animation animation_slide_wall;
+
+	Animation animation_charge_jump;
+	Animation animation_charge_idle;
+
 };

@@ -39,7 +39,7 @@ void Animation::update() {
 		last_time = now;
 	}
 
-	if (old_frame != current_frame) {
+	//if (old_frame != current_frame) {
 		if (sprite->getTexture() != &tex) sprite->setTexture(&tex);
 
 		if (is_mirrored == 0) {
@@ -49,7 +49,7 @@ void Animation::update() {
 			sprite->setTextureRect(sf::IntRect(current_frame * frame_width + frame_width, 0, -frame_width, frame_height));
 		}
 
-	}
+	//}
 }
 
 void Animation::mirror(bool is_mirrored) {
