@@ -18,10 +18,19 @@ public:
 
 	//inline sf::RectangleShape& get_sprite() { return sprite; };
 	inline sf::FloatRect get_hitbox() {
-		return sf::FloatRect(sprite.getPosition().x + hitbox_sprite_offset.x,
-			sprite.getPosition().y + hitbox_sprite_offset.y,
-			hitbox_size.x,
-			hitbox_size.y);
+		if (is_crouching == 0) {
+			return sf::FloatRect(sprite.getPosition().x + hitbox_sprite_offset.x,
+				sprite.getPosition().y + hitbox_sprite_offset.y,
+				hitbox_size.x,
+				hitbox_size.y);
+		}
+		else { // dau crouch
+			return sf::FloatRect(sprite.getPosition().x + hitbox_crouch_offset.x,
+				sprite.getPosition().y + hitbox_crouch_offset.y,
+				hitbox_crouch_size.x,
+				hitbox_crouch_size.y);
+		}
+		return sf::FloatRect(0, 0, 0, 0);
 	};
 private:
 	inline void move(sf::Vector2f offset) { sprite.setPosition(sprite.getPosition() + offset); };
@@ -45,7 +54,8 @@ private:
 	bool can_wall_grab = 1;
 	bool wall_grab = 0;
 	bool wall_grab_direction = 0; // 0 = left, 1 = right
-	
+	sf::FloatRect wall_grab_wall;
+
 	bool can_crouch = 1;
 	bool is_crouching = 0;
 
@@ -56,6 +66,9 @@ private:
 
 	sf::Vector2f hitbox_size;
 	sf::Vector2f hitbox_sprite_offset;
+
+	sf::Vector2f hitbox_crouch_size;
+	sf::Vector2f hitbox_crouch_offset;
 
 	Animation animation_walk;
 	Animation animation_idle;

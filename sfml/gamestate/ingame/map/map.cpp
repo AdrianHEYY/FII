@@ -15,8 +15,8 @@ Map::Map() {
 
 	setRect(0, 0);
 }
-void Map::add_wall_collision(int a, int b, int c, int d) {
 
+void Map::add_wall_collision(int a, int b, int c, int d) {
 	walls.push_back(sf::IntRect(a, b, c - a, d - b));
 }
 
