@@ -3,12 +3,15 @@
 Enemy::Enemy() {
 
 }
-void Enemy::update(float delta_time) {
+void Enemy::update() {
 
 }
-void Enemy::draw(sf::RenderWindow& win) {
+void Enemy::draw() {
 
 }
 void Enemy::save_file(std::ofstream& stream) {
 
+}
+bool Enemy::in_hitbox(sf::FloatRect& rect) {
+	return 0;
 }

@@ -7,9 +7,10 @@
 class Enemy {
 public:
 	Enemy();
-	virtual void update(float delta_time);
-	virtual void draw(sf::RenderWindow& win);
+	virtual void update();
+	virtual void draw();
 	virtual void save_file(std::ofstream& stream);
+	virtual bool in_hitbox(sf::FloatRect &rect);
 private:
 
 };

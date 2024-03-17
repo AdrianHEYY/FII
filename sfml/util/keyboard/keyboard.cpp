@@ -6,6 +6,7 @@ namespace util
 {
 	namespace keyboard 
 	{
+		bool just_pressed_a_key = 0;
 		std::set<sf::Keyboard::Key> _just_pressed;
 		std::set<sf::Keyboard::Key> _just_released;
 		std::set<sf::Keyboard::Key> _pressed;
@@ -25,8 +26,9 @@ namespace util
 			return 1;
 		}
 		void update_key(sf::Keyboard::Key key, bool just_pressed_key) {
-			if (just_pressed_key == 1 && !is_pressed(key)) {
+			if (just_pressed_key == 1 && !is_pressed(key)) { // ty windows api for being a bitch (semnalu de la released e tot 1, ca si cum ai apasa din nou tasta)
 				_just_pressed.insert(key);
+				just_pressed_a_key = 1;
 				_pressed.insert(key);
 			}
 			else if (just_pressed_key == 0) {
@@ -37,6 +39,7 @@ namespace util
 		void update_frame() {
 			_just_pressed.clear();
 			_just_released.clear();
+			just_pressed_a_key = 0;
 		}
 	}
 }

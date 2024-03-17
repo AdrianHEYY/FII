@@ -19,7 +19,7 @@ Animation::Animation(std::string filepath, sf::RectangleShape *sprite) {
 	}
 	frame_height = tex.getSize().y;
 	frame_width = tex.getSize().x / frame_times.size();
-	
+
 	reset();
 }
 void Animation::reset() {

@@ -1,6 +1,7 @@
 #include "enemyflying.h"
 
 #include "../../ingame.h"
+#include "../../../../util/util.h"
 
 #include <iostream>
 
@@ -9,6 +10,8 @@ Enemy_Flying::Enemy_Flying(in_game* ingame, sf::Vector2f start_pos, sf::Vector2f
 	animation("samples/animations/flying-enemy", &sprite) {
 	sprite.setPosition(start_pos);
 	sprite.setSize(ingame->convert_to_global_space({ 20, 16 }));
+
+	move_speed *= 3;
 
 	distance = sqrt(pow(end_pos.x - start_pos.x, 2) + pow(end_pos.y - start_pos.y, 2));
 
@@ -20,16 +23,34 @@ Enemy_Flying::Enemy_Flying(in_game* ingame, sf::Vector2f start_pos, sf::Vector2f
 	move_state = stay_start;
 
 	animation.reset();
+
+
+	hitbox.setSize(ingame->convert_to_global_space({ 16, 12 }));
+	hitbox.setFillColor(sf::Color(255, 0, 0, 122));
+	hitbox_off = sf::Vector2f({ 8, 6 });
 }
 
-void Enemy_Flying::update(float deltaTime) {
+bool Enemy_Flying::in_hitbox(sf::FloatRect&rect) {
+	if (hitbox.getGlobalBounds().intersects(rect)) return 1;
+	return 0;
+}
+
+void Enemy_Flying::update() {
 	static float accumulated = 0;
-	accumulated += deltaTime;
+	accumulated += util::delta_time;
 	while (accumulated >= 1) {
 		update_once();
 		accumulated -= 1;
 	}
+	if (move_state == move_start_end || move_state == stay_start) {
+		animation.mirror(true);
+	}
+	else {
+		animation.mirror(false);
+	}
 	animation.update();
+
+	hitbox.setPosition(sprite.getPosition() + hitbox_off);
 }
 
 void Enemy_Flying::update_once() {
@@ -43,7 +64,6 @@ void Enemy_Flying::update_once() {
 		if (rest_timer >= rest_time) move_state = move_start_end;
 		break;
 	case move_start_end:
-		//std::cout << distance(sprite.getPosition(), end_pos) << '\n';
 		sprite.setPosition(sprite.getPosition() + direction);
 		if (distance(sprite.getPosition(), end_pos) < direction.x * direction.x + direction.y * direction.y) move_state = stay_end, rest_timer = 0, sprite.setPosition(end_pos);
 		break;
@@ -60,7 +80,8 @@ void Enemy_Flying::update_once() {
 	}
 }
 
-//#include <iostream>
-void Enemy_Flying::draw(sf::RenderWindow& window) {
-	window.draw(sprite);
+void Enemy_Flying::draw() {
+	util::window.draw(sprite);
+
+	//window.draw(hitbox);
 }

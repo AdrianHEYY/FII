@@ -19,9 +19,10 @@ public:
 	/// <param name="move_start_windup_time">in ms</param>
 	/// <param name="move_windup_final_time">in ms</param>
 	/// <param name="move_final_start_time">in ms</param>
-	Spike(in_game* ingame, sf::Vector2f start_pos, sf::Vector2f windup_pos, sf::Vector2f final_pos, int stay_start_time, int stay_windup_time, int stay_final_time, int move_start_windup_time, int move_windup_final_time, int move_final_start_time);
-	void update(float delta_time) override;
-	void draw(sf::RenderWindow& win) override;
+	Spike(in_game* ingame, sf::Vector2f start_pos, sf::Vector2f windup_pos, sf::Vector2f final_pos, int stay_start_time, int stay_windup_time, int stay_final_time, int move_start_windup_time, int move_windup_final_time, int move_final_start_time, char direction);
+	void update() override;
+	void draw() override;
+	bool in_hitbox(sf::FloatRect& rect) override;
 private:
 	in_game* ingame;
 
@@ -36,10 +37,16 @@ private:
 	sf::RectangleShape sprite;
 	states move_state;
 
+	char direction;
+
 	int cat_mai_am_de_stat = 0;
 
 	sf::Vector2f start_pos, windup_pos, final_pos;
 	sf::Vector2f start_windup_direction, windup_final_direction, final_start_direction;
 	float stay_start_time, stay_windup_time, stay_final_time;
 	float move_start_windup_time, move_windup_final_time, move_final_start_time;
+
+
+	sf::RectangleShape hitbox;
+	sf::Vector2f hitbox_off;
 };

@@ -11,6 +11,7 @@ public:
 	void update();
 	void reset();
 	void mirror(bool is_mirrored);
+	inline int get_no_frame() { return current_frame; };
 private:
 	bool is_mirrored = 0;
 

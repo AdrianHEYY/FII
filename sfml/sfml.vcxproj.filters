@@ -63,6 +63,9 @@
     <ClCompile Include="gamestate\ingame\enemy\spitter\spitter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="gamestate\ingame\npc\npc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game\game.h">
@@ -110,5 +113,12 @@
     <ClInclude Include="gamestate\ingame\enemy\spitter\spitter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="gamestate\ingame\npc\npc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\vignette.vert" />
+    <None Include="shaders\vignette.frag" />
   </ItemGroup>
 </Project>

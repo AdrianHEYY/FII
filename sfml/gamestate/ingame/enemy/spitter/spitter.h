@@ -14,21 +14,31 @@ public:
 	///  180     0
 	///       90
 	/// </summary>
-	Spitter(in_game * ingame, sf::Vector2f position, float angle_deg, float atk_frequency_ms, float atk_speed);
-	void update(float delta_time) override;
+	Spitter(in_game * ingame, sf::Vector2f position, float angle_deg, float atk_frequency_ms, float atk_speed, sf::Vector2f oprire);
+	void update() override;
 
-	float time_remaining_idle = frequency;
+	bool in_hitbox(sf::FloatRect& rect) override;
+
 	void update_once();
-	void draw(sf::RenderWindow& win) override;
+	void draw() override;
 private:
+	float dist(sf::Vector2f a, sf::Vector2f b);
 	void spawn_new_bullet();
+
+	sf::Vector2f non_global_pos;
+
+	float attack_frames_remaining;
+
+	bool spawned = 0;
+	float accumulated = 0;
 
 	in_game* ingame;
 
 	sf::RectangleShape sprite;
 	sf::Vector2f position;
 	Animation attacking_animation;
-	Animation idle_a;
+
+	sf::Vector2f punct_oprire = { -1, -1 };
 
 	float speed; // projectile speed
 	float angle; // projectile base angle
@@ -51,8 +61,10 @@ private:
 		sf::Vector2f current_position;
 		bullet(sf::Vector2f position, sf::Vector2f direction);
 		void update();
-		void draw(sf::RenderWindow& win);
+		sf::FloatRect get_hb(in_game* ingame);
+		void draw(in_game* ingame);
 	};
 	std::vector<bullet> bullets;
 
+	
 };

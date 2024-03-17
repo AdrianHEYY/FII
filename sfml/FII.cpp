@@ -15,7 +15,7 @@
 
 #include "chrono"
 #include "Windows.h"
-
+/*
 void preciseSleep(double seconds) { // not stolen code
 	using namespace std;
 	using namespace std::chrono;
@@ -45,25 +45,53 @@ void preciseSleep(double seconds) { // not stolen code
 	auto start = high_resolution_clock::now();
 	while ((high_resolution_clock::now() - start).count() / 1e9 < seconds);
 }
+*/
+void preciseSleep(float seconds) {
+	float ms = seconds * 1000;
+
+	using namespace std;
+	using namespace std::chrono;
+	chrono::high_resolution_clock::time_point inainte, dupa;
+	float took = 0;
+
+	while (ms > 25) {
+		inainte = chrono::high_resolution_clock::now();
+		//std::cout << "Here\n";
+		this_thread::sleep_for(chrono::milliseconds(1));
+		dupa = chrono::high_resolution_clock::now();
+		took = float(chrono::duration_cast<chrono::microseconds>(dupa - inainte).count()) / 1000.0;
+		ms -= took;
+	}
+
+	inainte = chrono::high_resolution_clock::now();
+	while (ms - float(chrono::duration_cast<chrono::microseconds>(chrono::high_resolution_clock::now() - inainte).count()) / 1000.0 > 0) {
+		;
+	}
+}
 
 int main() {
+	util::font.loadFromFile("samples/Roboto-Medium.ttf");
+	util::window.create(1920, 1080);
+
 	Game game;
 
-	util::font.loadFromFile("samples/Roboto-Medium.ttf");
-	
 	float fps = 144;
 	float frame_should_last_ms = 1000.0 / 144.0;
 
 	std::chrono::high_resolution_clock::time_point last_frame = std::chrono::high_resolution_clock::now();
 
-	while (util::window.isOpen()) {
+	sf::Shader vignette;
+	vignette.loadFromFile("shaders/vignette.vert", "shaders/vignette.frag");
+	vignette.setUniform("iResolution", sf::Vector2f(1920, 1080));
+
+	while (util::renderwindow.isOpen()) {
 		sf::Event ev;
 		util::keyboard::update_frame();
 		util::mouse::update_frame();
-		while (util::window.pollEvent(ev)) {
+		while (util::renderwindow.pollEvent(ev)) {
 			switch (ev.type) {
 			case sf::Event::Closed:
-				util::window.close();
+				util::renderwindow.close();
 				break;
 			case sf::Event::KeyPressed:
 				util::keyboard::update_key(ev.key.code, 1);
@@ -90,7 +118,15 @@ int main() {
 
 		util::window.display();
 
-		if (util::keyboard::is_pressed(sf::Keyboard::Key::Escape)) util::window.close();
+		sf::Texture tex = util::window.getTexture();
+		sf::Sprite win_sprite;
+		win_sprite.setTexture(tex);
+		util::renderwindow.clear();
+		vignette.setUniform("texture", tex);
+		util::renderwindow.draw(win_sprite, &vignette);
+		util::renderwindow.display();
+
+		if (util::keyboard::is_pressed(sf::Keyboard::Key::Escape)) util::renderwindow.close();
 
 		std::chrono::high_resolution_clock::time_point this_frame = std::chrono::high_resolution_clock::now();
 		long long duration = std::chrono::duration_cast<std::chrono::milliseconds>(this_frame - last_frame).count();
@@ -105,7 +141,6 @@ int main() {
 		}
 		util::delta_time = duration / frame_should_last_ms;
 
-		//std::cout << util::delta_time << '\n';
 	}
 
 	return 0;

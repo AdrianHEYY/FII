@@ -16,9 +16,11 @@ public:
 	/// <param name="rest_time">in milliseconds</param>
 	Enemy_Flying(in_game* ingame, sf::Vector2f start_pos, sf::Vector2f end_pos, float move_speed, float rest_time);
 
-	void update(float delta_time);
+	void update() override;
 
-	void draw(sf::RenderWindow& window) override;
+	void draw() override;
+
+	bool in_hitbox(sf::FloatRect& rect) override;
 private:
 	void update_once();
 
@@ -41,4 +43,7 @@ private:
 	float rest_timer = 0;
 	float distance;
 	bool resting;
+
+	sf::Vector2f hitbox_off;
+	sf::RectangleShape hitbox;
 };

@@ -12,5 +12,6 @@ namespace util {
 		bool is_pressed(sf::Keyboard::Key key);
 		void update_key(sf::Keyboard::Key key, bool just_pressed_key);
 		void update_frame();
+		extern bool just_pressed_a_key;
 	}
 };
