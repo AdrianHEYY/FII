@@ -66,6 +66,12 @@
     <ClCompile Include="gamestate\ingame\npc\npc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="gamestate\settings\settings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="util\shaders\shaders.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game\game.h">
@@ -114,6 +120,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="gamestate\ingame\npc\npc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestate\settings\settings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util\shaders\shaders.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

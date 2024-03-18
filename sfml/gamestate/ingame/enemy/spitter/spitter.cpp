@@ -1,7 +1,7 @@
 #include "spitter.h"
 
 #include "../../ingame.h"
-
+#include "../../../../util/shaders/shaders.h"
 #include <iostream>
 
 Spitter::Spitter(in_game * ingame, sf::Vector2f position, float angle_deg, float atk_frequency_ms, float atk_speed, sf::Vector2f oprire)
@@ -74,7 +74,7 @@ void Spitter::update_once() {
 
 void Spitter::draw() {
 	for (auto& i : bullets) i.draw(ingame);
-	util::window.draw(sprite);
+	util::window.draw(sprite, &util::shaders::vignette);
 
 	// hb
 	/*
@@ -115,5 +115,5 @@ sf::FloatRect Spitter::bullet::get_hb(in_game* ingame) {
 
 void Spitter::bullet::draw(in_game * ingame) {
 	sprite.setPosition(ingame->convert_to_global_space(current_position));
-	util::window.draw(sprite);
+	util::window.draw(sprite, &util::shaders::vignette);
 }

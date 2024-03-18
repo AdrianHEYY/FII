@@ -54,20 +54,20 @@ private:
 
 	bool facing = 0; // 0 = left, 1 = right
 
-	bool can_big_jump = 1;
+	bool can_big_jump = 0;
 	bool big_jumping = 0;
 	bool big_jumping_done = 0;
 	std::chrono::high_resolution_clock::time_point big_jump_time; // start_time
 
-	bool can_wall_grab = 1;
+	bool can_wall_grab = 0;
 	bool wall_grab = 0;
 	bool wall_grab_direction = 0; // 0 = left, 1 = right
 	sf::FloatRect wall_grab_wall;
 
-	bool can_crouch = 1;
+	bool can_crouch = 0;
 	bool is_crouching = 0;
 
-	bool can_dash = 1;
+	bool can_dash = 0;
 	bool dashing = 0;
 	bool has_dash = 0;
 	std::chrono::high_resolution_clock::time_point dash_time; // start_time

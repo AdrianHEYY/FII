@@ -3,6 +3,7 @@
 #include "../../map/map.h"
 #include "../../ingame.h"
 #include "../../../../util/util.h"
+#include "../../../../util/shaders/shaders.h"
 #include <math.h>
 
 Spike::Spike(in_game* ingame, sf::Vector2f start_pos, sf::Vector2f windup_pos, sf::Vector2f final_pos, int stay_start_time, int stay_windup_time, int stay_final_time, int move_start_windup_time, int move_windup_final_time, int move_final_start_time, char direction)
@@ -99,7 +100,7 @@ void Spike::update_once() {
 	sprite.setPosition(position);
 }
 void Spike::draw() {
-	util::window.draw(sprite);
+	util::window.draw(sprite, &util::shaders::vignette);
 
 	// win.draw(hitbox);
 }

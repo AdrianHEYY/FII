@@ -138,7 +138,7 @@ void in_game::respawn_player() {
 void in_game::draw() 
 {
 	map.draw();
-	for (auto& i : enemies) i->draw(); // todo nu-l mai da ca parametru
+	for (auto& i : enemies) i->draw(); 
 	for (int i = 0; i < 4; i++) {
 		if (npcs[i] != nullptr) npcs[i]->draw();
 	}

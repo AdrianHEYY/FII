@@ -4,6 +4,7 @@
 #include "map.h"
 
 #include "../../../util/util.h"
+#include "../../../util/shaders/shaders.h"
 
 Map::Map() {
 
@@ -28,7 +29,7 @@ void Map::setRect(int x, int y) {
 	sprite.setTextureRect(sf::IntRect(x, y, screen_x, screen_y));
 }
 void Map::draw() {
-	util::window.draw(sprite);
+	util::window.draw(sprite, &util::shaders::vignette);
 }
 
 sf::FloatRect Map::intersects_walls(sf::FloatRect rect) { 

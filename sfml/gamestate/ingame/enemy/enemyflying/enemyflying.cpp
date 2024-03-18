@@ -2,6 +2,7 @@
 
 #include "../../ingame.h"
 #include "../../../../util/util.h"
+#include "../../../../util/shaders/shaders.h"
 
 #include <iostream>
 
@@ -81,7 +82,7 @@ void Enemy_Flying::update_once() {
 }
 
 void Enemy_Flying::draw() {
-	util::window.draw(sprite);
+	util::window.draw(sprite, &util::shaders::vignette);
 
 	//window.draw(hitbox);
 }
