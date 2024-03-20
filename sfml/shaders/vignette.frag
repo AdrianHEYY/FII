@@ -35,4 +35,7 @@ void main()
     vec3 sol = pixel.rgb * gradient_val;
 
     gl_FragColor = vec4(sol.rgb, 1.0);
+    if (pixel.a == 0){
+    gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
+    }
 }

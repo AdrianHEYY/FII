@@ -72,6 +72,9 @@
     <ClCompile Include="util\shaders\shaders.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="gamestate\ingame\enemy\void\void.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game\game.h">
@@ -128,9 +131,14 @@
     <ClInclude Include="util\shaders\shaders.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="gamestate\ingame\enemy\void\void.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\vignette.vert" />
     <None Include="shaders\vignette.frag" />
+    <None Include="shaders\big_done.vert" />
+    <None Include="shaders\big_done.frag" />
   </ItemGroup>
 </Project>

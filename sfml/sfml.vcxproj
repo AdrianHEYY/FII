@@ -152,6 +152,7 @@
     <ClCompile Include="gamestate\ingame\enemy\enemyflying\enemyflying.cpp" />
     <ClCompile Include="gamestate\ingame\enemy\spike\spike.cpp" />
     <ClCompile Include="gamestate\ingame\enemy\spitter\spitter.cpp" />
+    <ClCompile Include="gamestate\ingame\enemy\void\void.cpp" />
     <ClCompile Include="gamestate\ingame\ingame.cpp" />
     <ClCompile Include="gamestate\ingame\map\map.cpp" />
     <ClCompile Include="gamestate\ingame\npc\npc.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="gamestate\ingame\enemy\enemyflying\enemyflying.h" />
     <ClInclude Include="gamestate\ingame\enemy\spike\spike.h" />
     <ClInclude Include="gamestate\ingame\enemy\spitter\spitter.h" />
+    <ClInclude Include="gamestate\ingame\enemy\void\void.h" />
     <ClInclude Include="gamestate\ingame\ingame.h" />
     <ClInclude Include="gamestate\ingame\map\map.h" />
     <ClInclude Include="gamestate\ingame\npc\npc.h" />
@@ -185,6 +187,8 @@
     <ClInclude Include="util\util.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="shaders\big_done.frag" />
+    <None Include="shaders\big_done.vert" />
     <None Include="shaders\vignette.frag" />
     <None Include="shaders\vignette.vert" />
   </ItemGroup>

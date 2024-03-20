@@ -6,6 +6,7 @@
 #include "enemy/enemyflying/enemyflying.h"
 #include "enemy/spike/spike.h"
 #include "enemy/spitter/spitter.h"
+#include "enemy/void/void.h"
 #include "npc/npc.h"
 
 class in_game : public game_state
@@ -22,7 +23,13 @@ public:
 	inline std::vector<Enemy*> get_enemies() { return enemies; };
 
 	void save_last_npc(int new_npc);
-	
+	void save_player_can_wall_jump();
+	void save_player_can_big_jump();
+	void save_player_can_dash();
+	void save_player_can_crouch();
+	~in_game();
+
+
 	void respawn_player();
 private:
 	player sprite;
@@ -38,4 +45,7 @@ private:
 		bool can_dash = 0;
 	};
 	save_file current_save_file;
+
+	sf::RectangleShape big_red_button_sprite;
+	sf::Texture big_red_button_texture;
 };

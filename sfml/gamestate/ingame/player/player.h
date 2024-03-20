@@ -12,15 +12,17 @@ public:
 	void draw();
 	void update();
 
-	inline void unlock_wall_jump() { can_wall_grab = 1; };
-	inline void unlock_big_jump() { can_big_jump = 1; };
-	inline void unlock_crouch() { can_crouch = 1; };
-	inline void unlock_dash() { can_dash = 1; };
+	void unlock_wall_jump();
+	void unlock_big_jump();
+	void unlock_crouch();
+	void unlock_dash();
 	
 	inline sf::Vector2f getPosition() { return sprite.getPosition(); };
 	inline sf::Vector2f getSize() { return sprite.getSize(); }
 	inline sf::Vector2f getOffPosition() { return off_position; };
 	inline sf::Vector2f getVelocity() { return velocity; };
+
+	inline void move_unsafe(sf::Vector2f off) { sprite.setPosition(sprite.getPosition() + off); }
 
 	void respawn_go_location(sf::Vector2f location);
 
@@ -48,6 +50,8 @@ private:
 	bool can_go(sf::Vector2f new_pos, sf::Vector2f size);
 
 	in_game* ingame;
+
+	sf::View this_view;
 
 	sf::Vector2f velocity;
 	sf::Vector2f off_position;
@@ -98,4 +102,11 @@ private:
 	Animation animation_death;
 	sf::Text death_text;
 	bool dead = 0;
+
+	bool unlocked_text_show = 0;
+	std::chrono::high_resolution_clock::time_point unlocked_text_start;
+	sf::Text unlocked_text;
+
+	bool godmode = 0;
+	sf::Text godmode_text;
 };

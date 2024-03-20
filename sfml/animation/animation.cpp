@@ -1,7 +1,6 @@
 #include "animation.h"
 
 #include <fstream>
-#include <iostream>
 
 Animation::Animation(std::string filepath, sf::RectangleShape *sprite) {
 	tex.loadFromFile(filepath + ".png");

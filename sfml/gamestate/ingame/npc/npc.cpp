@@ -5,7 +5,6 @@
 #include "../../../util/util.h"
 #include "../../../animation/animation.h"
 
-#include <iostream>
 
 npc::npc(in_game* ingame, std::string animation_name, std::string dialogue_file_text_name, sf::Vector2f position, sf::Vector2f size)
 	: ingame(ingame), animation(animation_name, &sprite) {
@@ -47,7 +46,7 @@ void npc::progress_dialogue() {
 		}
 		if (is_done == 1) {
 
-			dialogue_text.setString("I will forever be there with you.");
+			dialogue_text.setString("I will forever be here for you.");
 		}
 		else {
 			dialogue_text.setString(dialogue[current_dialogue]);

@@ -4,6 +4,8 @@
 
 namespace util {
 	bool rect_collision(sf::RectangleShape& a, sf::RectangleShape& b);
+	extern bool big_done;
+
 	float convert_ms_to_frames(int ms);
 
 	//extern sf::RenderWindow window;

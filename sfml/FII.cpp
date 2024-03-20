@@ -1,4 +1,3 @@
-#include <iostream>
 #include <vector>
 #include <string>
 #include <thread>
@@ -26,7 +25,6 @@ void preciseSleep(float seconds) {
 
 	while (ms > 25) {
 		inainte = chrono::high_resolution_clock::now();
-		//std::cout << "Here\n";
 		this_thread::sleep_for(chrono::milliseconds(1));
 		dupa = chrono::high_resolution_clock::now();
 		took = float(chrono::duration_cast<chrono::microseconds>(dupa - inainte).count()) / 1000.0;
@@ -84,7 +82,7 @@ int main() {
 
 		game.update();
 		
-		util::window.clear(sf::Color::White);
+		util::window.clear(sf::Color::Black);
 
 		game.draw();
 
@@ -96,8 +94,6 @@ int main() {
 		util::renderwindow.clear();
 		util::renderwindow.draw(win_sprite);
 		util::renderwindow.display();
-
-		if (util::keyboard::is_pressed(sf::Keyboard::Key::Escape)) util::renderwindow.close();
 
 		std::chrono::high_resolution_clock::time_point this_frame = std::chrono::high_resolution_clock::now();
 		long long duration = std::chrono::duration_cast<std::chrono::milliseconds>(this_frame - last_frame).count();

@@ -9,10 +9,12 @@ public:
     Game();
     
     void setGameState(game_states gamestate);
-    
+    void removeGameState(game_states gamestate);
+
     void draw();
     void update();
 private:
-    //game_state* current_game_state_ptr;
+    void clear_states();
     std::vector<game_state*> current_game_states;
+    game_states next_game_state, next_remove_game_state;
 };

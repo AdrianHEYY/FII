@@ -14,6 +14,10 @@ namespace util {
 		void update_frame();
 		extern bool just_pressed_a_key;
 
+		std::vector<sf::Keyboard::Key> get_just_pressed_keys();
+
+		std::string fromKtoS(const sf::Keyboard::Key& k);
+
 		extern sf::Keyboard::Key move_left_key, move_right_key, jump_key, 
 			crouch_key, wall_grab_key, big_jump_key, dash_key;
 	}

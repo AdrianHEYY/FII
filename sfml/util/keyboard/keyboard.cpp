@@ -41,6 +41,13 @@ namespace util
 			_just_released.clear();
 			just_pressed_a_key = 0;
 		}
+
+        std::vector<sf::Keyboard::Key> get_just_pressed_keys() {
+            std::vector<sf::Keyboard::Key> vec;
+            for (auto& i : _just_pressed)
+                vec.push_back(i);
+            return vec;
+        }
 		
         std::string fromKtoS(const sf::Keyboard::Key& k) {
             std::string ret;
@@ -208,7 +215,7 @@ namespace util
         }
 
 		extern sf::Keyboard::Key 
-			move_left_key = sf::Keyboard::A, move_right_key, jump_key,
-			crouch_key, wall_grab_key, big_jump_key, dash_key;
+			move_left_key = sf::Keyboard::A, move_right_key = sf::Keyboard::D, jump_key = sf::Keyboard::Space,
+			crouch_key = sf::Keyboard::S, wall_grab_key = sf::Keyboard::Left, big_jump_key = sf::Keyboard::Left, dash_key = sf::Keyboard::Down;
 	}
 }

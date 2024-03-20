@@ -23,9 +23,11 @@ player::player(in_game* game)
 
 	off_position = sf::Vector2f(start_pos);
 	sprite.setPosition(sf::Vector2f(start_pos));
-	sf::View view = util::window.getView();
-	view.move(sf::Vector2f(start_pos));
-	util::window.setView(view);
+
+	sf::Vector2f win_size = sf::Vector2f(util::window.getSize());
+	this_view = sf::View(win_size / 2.0f, win_size);
+	this_view.move(sf::Vector2f(start_pos));
+	util::window.setView(this_view);
 	velocity = sf::Vector2f(0.0f, 0.0f);
 
 	// il pun pe centru
@@ -50,6 +52,15 @@ player::player(in_game* game)
 	death_text.setCharacterSize(30);
 	death_text.setFont(util::font);
 	death_text.setString("         Press any key to respawn.\nNo need to worry, you can always try again.");
+
+	unlocked_text.setCharacterSize(30);
+	unlocked_text.setFont(util::font);
+	unlocked_text.setFillColor(sf::Color::White);
+
+	godmode_text.setCharacterSize(30);
+	godmode_text.setFont(util::font);
+	godmode_text.setFillColor(sf::Color::Green);
+	godmode_text.setString("Godmode");
 }
 
 void player::respawn_go_location(sf::Vector2f location) {
@@ -66,6 +77,23 @@ void player::respawn_go_location(sf::Vector2f location) {
 
 void player::draw() {
 	util::window.draw(sprite);
+
+	if (unlocked_text_show == 1) {
+		long long ms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - unlocked_text_start).count();
+		float s = float(ms) / 1000.0;
+		unlocked_text.setPosition(sprite.getPosition() + sf::Vector2f(sprite.getSize().x / 2.0, 0.0) + sf::Vector2f(0, 300) - sf::Vector2f(unlocked_text.getGlobalBounds().width / 2.0, 0));
+		if (s < 3.0) {
+			util::window.draw(unlocked_text);
+		}
+		else {
+			unlocked_text_show = 0;
+		}
+	}
+
+	if (godmode == 1) {
+		godmode_text.setPosition(off_position);
+		util::window.draw(godmode_text);
+	}
 
 	if (dead == 1 && animation_death.get_no_frame() == 6) {
 		util::window.draw(death_text);
@@ -86,18 +114,14 @@ void player::draw() {
 	}
 }
 
-#include <iostream> //todo
 
 void player::update() {
+
 	if (dead == 1) {
 		sf::Vector2f current_pos = sprite.getPosition();
 		sf::Vector2f current_size = sprite.getSize();
 		sf::FloatRect rect_vel_y = ingame->map_empty_rect(sprite.getPosition() + sf::Vector2f(0, velocity.y), sprite.getSize());
 		if (rect_vel_y.height != 0 && rect_vel_y.width != 0 && rect_vel_y.top > current_pos.y) {
-			//sf::View view = util::window.getView();
-			//sprite.setPosition(sf::Vector2f(sprite.getPosition().x, rect_vel_y.top - sprite.getSize().y + 3));
-			//death_text.setPosition(sf::Vector2f(current_pos.x + current_size.x - 0.5 * death_text.getGlobalBounds().width - 20, current_pos.y + current_size.y + 100));
-			// pe podea
 			sf::Vector2f old_pos = current_pos;
 
 			sprite.setPosition(sf::Vector2f(sprite.getPosition().x, rect_vel_y.top - sprite.getSize().y + 3));
@@ -212,22 +236,20 @@ void player::update() {
 
 }
 
-#include <iostream> //todo
-
 void player::update_movement_AD(sf::Vector2f &velocity) {
-	if (util::keyboard::is_pressed(sf::Keyboard::A))
+	if (util::keyboard::is_pressed(util::keyboard::move_left_key))
 	{
-		velocity.x -= 1.5; //todo 1.5 si 6 requires tweaking
+		velocity.x -= 1.5;
 		if (velocity.x < -6)
 			velocity.x = -6;
 	}
-	if (util::keyboard::is_pressed(sf::Keyboard::D))
+	if (util::keyboard::is_pressed(util::keyboard::move_right_key))
 	{
 		velocity.x += 1.5;
 		if (velocity.x > 6)
 			velocity.x = 6;
 	}
-	if (!util::keyboard::is_pressed(sf::Keyboard::A) && !util::keyboard::is_pressed(sf::Keyboard::D) && velocity.x != 0)
+	if (!util::keyboard::is_pressed(util::keyboard::move_left_key) && !util::keyboard::is_pressed(util::keyboard::move_right_key) && velocity.x != 0)
 	{
 		float oldX = velocity.x;
 		velocity.x += ((velocity.x < 0) ? 1.0f : -1.0f);
@@ -249,7 +271,7 @@ void player::update_movement_crouch(bool &check_jump, sf::Vector2f &velocity) {
 	check_jump = 0;
 	sf::Vector2f movement_fals;
 	update_movement_AD(movement_fals);
-	if (!util::keyboard::is_pressed(sf::Keyboard::A) && !util::keyboard::is_pressed(sf::Keyboard::D) && velocity.x != 0) {
+	if (!util::keyboard::is_pressed(util::keyboard::move_left_key) && !util::keyboard::is_pressed(util::keyboard::move_right_key) && velocity.x != 0) {
 		float oldX = velocity.x;
 		velocity.x += ((velocity.x < 0) ? 0.5f : -0.5f);
 		if ((oldX < 0.0 && velocity.x > 0.0) || (oldX > 0.0 && velocity.x < 0.0)) velocity.x = 0;
@@ -270,6 +292,7 @@ void player::update_movement() {
 	sf::Vector2f current_pos(current_hb.left, current_hb.top);
 	sf::Vector2f current_size(current_hb.width, current_hb.height);
 
+	/*
 	if (util::keyboard::is_pressed(sf::Keyboard::Right)) {
 		if (util::keyboard::is_pressed(sf::Keyboard::W)) {
 			velocity.y = -4;
@@ -292,10 +315,9 @@ void player::update_movement() {
 		util::window.setView(view);
 		return;
 	}
+	*/
 
 	bool check_jump = 1;
-
-	//std::cout << dashing << '\n';
 
 	// vezi ca poti da dashuri infinite
 	if (dashing == 1) {
@@ -330,7 +352,7 @@ void player::update_movement() {
 			on_ground = 0;
 			check_jump = 1;
 		}
-		else if (!util::keyboard::is_pressed(sf::Keyboard::S)) { // oh nu nu mia dau crouch
+		else if (!util::keyboard::is_pressed(util::keyboard::crouch_key)) { // oh nu nu mia dau crouch
 			check_jump = 1;
 			is_crouching = 0;
 		}
@@ -357,11 +379,9 @@ void player::update_movement() {
 		update_movement_AD(velocity);
 	}
 
-	//std::cout << velocity.y << '\n';
-
 	// big jump stuff
 	if (can_big_jump == 1) {
-		if (on_ground == 1 && util::keyboard::is_pressed(sf::Keyboard::Left) && is_crouching == 0 && dashing == 0) {
+		if (on_ground == 1 && util::keyboard::is_pressed(util::keyboard::big_jump_key) && is_crouching == 0 && dashing == 0) {
 			if (big_jumping == 1) { // charging
 				long long curr_time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - big_jump_time).count();
 				if (curr_time >= 800) { // fully charged
@@ -397,7 +417,7 @@ void player::update_movement() {
 				velocity = { 0, 0 };
 			}
 		}
-		else if (!util::keyboard::is_pressed(sf::Keyboard::Left)) {
+		else if (!util::keyboard::is_pressed(util::keyboard::big_jump_key)) {
 			if (big_jumping == 1) { // cancel it
 				big_jumping = 0;
 			}
@@ -417,14 +437,14 @@ void player::update_movement() {
 				wall_grab = 0;
 				check_jump = 1;
 			}
-			else if (util::keyboard::just_pressed(sf::Keyboard::Space)) {
+			else if (util::keyboard::just_pressed(util::keyboard::jump_key)) {
 				velocity.y = -11;
 				animation_jump.reset();
 				velocity.x = 10 * ((wall_grab_direction == 0) ? 1 : -1);
 				wall_grab = 0;
 				check_jump = 1;
 			}
-			else if (util::keyboard::just_released(sf::Keyboard::Left)) {
+			else if (util::keyboard::just_released(util::keyboard::wall_grab_key)) {
 				// m-am despartit
 				wall_grab = 0;
 				check_jump = 1;
@@ -432,8 +452,8 @@ void player::update_movement() {
 			else if (can_go(current_pos + velocity, current_size) == 1) {
 				// m-am miscat de pe zid | (poate nu dau release la Left)
 				bool ok = 0;
-				if (wall_grab_direction == 0 && util::keyboard::is_pressed(sf::Keyboard::D)) ok = 1;
-				if (wall_grab_direction == 1 && util::keyboard::is_pressed(sf::Keyboard::A)) ok = 1;
+				if (wall_grab_direction == 0 && util::keyboard::is_pressed(util::keyboard::move_right_key)) ok = 1;
+				if (wall_grab_direction == 1 && util::keyboard::is_pressed(util::keyboard::move_left_key)) ok = 1;
 
 				if (ok == 1) {
 					check_jump = 1;
@@ -452,7 +472,7 @@ void player::update_movement() {
 
 	// crouch stuff
 	if (can_crouch == 1) {
-		if (on_ground == 1 && util::keyboard::is_pressed(sf::Keyboard::S) && is_crouching == 0 && big_jumping == 0 && dashing == 0) {
+		if (on_ground == 1 && util::keyboard::is_pressed(util::keyboard::crouch_key) && is_crouching == 0 && big_jumping == 0 && dashing == 0) {
 			is_crouching = 1;
 			animation_crouch.reset();
 			velocity = { 0, 0 };
@@ -462,7 +482,7 @@ void player::update_movement() {
 	// dash stuff
 	if (can_dash == 1) {
 		if (!big_jumping && !wall_grab && !is_crouching && dashing == 0 && has_dash == 1) {
-			if (util::keyboard::just_pressed(sf::Keyboard::Down)) {
+			if (util::keyboard::just_pressed(util::keyboard::dash_key)) {
 				dashing = 1;
 				has_dash = 0;
 				dash_time = std::chrono::high_resolution_clock::now();
@@ -483,7 +503,7 @@ void player::update_movement() {
 			sf::FloatRect rect_vel_y = ingame->map_empty_rect(current_pos + sf::Vector2f(0, velocity.y), current_size);
 			if (rect_vel_y.height != 0 && rect_vel_y.width != 0) {
 				// pe podea
-				if (util::keyboard::just_pressed(sf::Keyboard::Key::Space)) {
+				if (util::keyboard::just_pressed(util::keyboard::jump_key)) {
 					velocity.y = -11;
 					animation_jump.reset();
 					jumping = 1;
@@ -538,18 +558,14 @@ void player::update_movement() {
 	// wall grab stuff
 	if (can_wall_grab) {
 		static std::chrono::high_resolution_clock::time_point left = std::chrono::high_resolution_clock::now();
-		if (util::keyboard::just_pressed(sf::Keyboard::Left)) left = std::chrono::high_resolution_clock::now();
+		if (util::keyboard::just_pressed(util::keyboard::wall_grab_key)) left = std::chrono::high_resolution_clock::now();
 		bool close_enough_timing_left_key = 0;
 		if (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - left).count() <= 100) close_enough_timing_left_key = 1;
 		if (on_ground == 0 && near_wall == 1 && close_enough_timing_left_key == 1 && rect_vel_x.width <= 10) { // wall grab
-			//std::cout << rect_vel_x.left << ' ' << rect_vel_x.top << ' ' << rect_vel_x.width << ' ' << rect_vel_x.height << '\n';
-			//std::cout << current_pos.y << ' ' << current_size.y << '\n';
 			wall_grab_wall = rect_vel_x;
 			if (current_pos.y >= wall_grab_wall.top && current_pos.y + current_size.y <= wall_grab_wall.top + wall_grab_wall.height) {
 				velocity.y = 0;
 				wall_grab = 1;
-
-				//std::cout << rect_vel_x.left << ' ' << rect_vel_x.top << ' ' << rect_vel_x.width << ' ' << rect_vel_x.height << '\n';
 
 				jumping = 1;
 				wall_grab_direction = (rect_vel_x.left + rect_vel_x.width <= current_pos.x) ? 0 : 1;
@@ -568,8 +584,6 @@ void player::update_movement() {
 	sf::Vector2f new_velocity = velocity;
 	move(new_velocity);
 
-	//std::cout << current_pos.x << ' ' << current_pos.y << '\n';
-
 	sf::FloatRect rect_vel_final = ingame->map_empty_rect(get_hitbox());
 	if (rect_vel_final.height != 0 && rect_vel_final.width != 0) { // in caz de ceva doar ma opresc 
 		move(-new_velocity);
@@ -582,22 +596,62 @@ void player::update_movement() {
 	this->velocity = velocity;
 	off_position = off_position + new_velocity;
 	util::window.setView(view);
+	
+	if (util::keyboard::just_pressed(sf::Keyboard::O)) godmode = 1 - godmode;
+	if (godmode == 0) {
+		sf::FloatRect hb = get_hitbox();
+		for (auto& i : ingame->get_enemies()) {
+			if (i->in_hitbox(hb) == 1) {
+				big_jumping = 0;
+				wall_grab = 0;
+				is_crouching = 0;
+				dashing = 0;
 
-	sf::FloatRect hb = get_hitbox();
-	for (auto& i : ingame->get_enemies()) {
-		if (i->in_hitbox(hb) == 1) {
-			big_jumping = 0;
-			wall_grab = 0;
-			is_crouching = 0;
-			dashing = 0;
-
-			dead = 1;
-			velocity = { 0, 0 };
-			animation_death.reset();
-			animation_death.update();
-			if (facing == 1) animation_death.mirror(false);
-			else animation_death.mirror(true);
+				dead = 1;
+				velocity = { 0, 0 };
+				animation_death.reset();
+				animation_death.update();
+				if (facing == 1) animation_death.mirror(false);
+				else animation_death.mirror(true);
+			}
 		}
 	}
 
 }
+
+void player::unlock_wall_jump() { 
+	if (can_wall_grab == 1) return;
+	can_wall_grab = 1; 
+	ingame->save_player_can_wall_jump(); 
+
+	unlocked_text_show = 1;
+	unlocked_text_start = std::chrono::high_resolution_clock::now();
+	unlocked_text.setString("You have unlocked WALL JUMPING!");
+};
+void player::unlock_big_jump() { 
+	if (can_big_jump == 1) return;
+	can_big_jump = 1; 
+	ingame->save_player_can_big_jump(); 
+
+	unlocked_text_show = 1;
+	unlocked_text_start = std::chrono::high_resolution_clock::now();
+	unlocked_text.setString("You have unlocked CHARGE JUMPING!");
+};
+void player::unlock_crouch() { 
+	if (can_crouch == 1) return;
+	can_crouch = 1; 
+	ingame->save_player_can_crouch(); 
+
+	unlocked_text_show = 1;
+	unlocked_text_start = std::chrono::high_resolution_clock::now();
+	unlocked_text.setString("You have unlocked CROUCHING!");
+};
+void player::unlock_dash() { 
+	if (can_dash == 1) return;
+	can_dash = 1; 
+	ingame->save_player_can_dash(); 
+
+	unlocked_text_show = 1;
+	unlocked_text_start = std::chrono::high_resolution_clock::now();
+	unlocked_text.setString("You have unlocked DASHING!");
+};

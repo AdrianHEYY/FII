@@ -7,8 +7,10 @@
 
 enum game_states
 {
+	NONE, 
 	MAIN_MENU,
-	IN_GAME
+	IN_GAME,
+	OPTIONS
 };
 
 extern class Game;

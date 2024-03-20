@@ -16,4 +16,14 @@ private:
 
 	std::vector<sf::RectangleShape> butoane_binded;
 	std::vector<sf::Text> text_binded;
+
+	int selected = -1;
+
+	sf::RectangleShape exit_buton;
+	sf::Text exit_text;
+
+	sf::RectangleShape resume_buton;
+	sf::Text resume_text;
+
+	sf::Text escape;
 };

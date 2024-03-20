@@ -4,8 +4,6 @@
 #include "../../../../util/util.h"
 #include "../../../../util/shaders/shaders.h"
 
-#include <iostream>
-
 Enemy_Flying::Enemy_Flying(in_game* ingame, sf::Vector2f start_pos, sf::Vector2f end_pos, float move_speed, float rest_time)
 	: ingame(ingame), start_pos(start_pos), end_pos(end_pos), move_speed(move_speed * 3), rest_time(rest_time * 144.0 / 1000.0), resting(false) ,
 	animation("samples/animations/flying-enemy", &sprite) {
@@ -18,8 +16,6 @@ Enemy_Flying::Enemy_Flying(in_game* ingame, sf::Vector2f start_pos, sf::Vector2f
 
 	direction = (end_pos - start_pos) / distance;
 	direction *= move_speed;
-
-	//std::cout << direction.x << ' ' << direction.y << '\n';
 
 	move_state = stay_start;
 

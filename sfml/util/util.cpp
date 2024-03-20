@@ -5,6 +5,7 @@ namespace util {
     const int window_size_y = sf::VideoMode::getDesktopMode().height;
     sf::RenderWindow renderwindow(sf::VideoMode(window_size_x, window_size_y), "Title", sf::Style::Fullscreen);
     sf::RenderTexture window;
+    bool big_done = 0;
     
     float delta_time;
 
